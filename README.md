@@ -32,19 +32,41 @@ Follow these steps to deploy the infrastructure using Terraform:
     terraform init
     ```
 
-4. Review and modify the `variables.tf` file to set your desired configurations. You may need to update variables such as region, AWS profile, etc.
+4. Review and modify the `main.tf` file to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
 
-5. Optionally, build and push your custom Docker images to ECR:
+5. Apply the Terraform configuration to create the infrastructure:
+
+    ```bash
+    terraform apply
+    ```
+
+6. Confirm the deployment by reviewing the Terraform plan and entering 'yes' when prompted.
+
+7. Once the deployment is complete, You need to push docker image.
+
+8. Optionally, build and push your custom Docker images to ECR:
 
     ```bash
     # Build the Docker images
     docker build -t your-image-name .
 
     # Tag the Docker image for ECR
-    docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/your-image-name:latest
+    docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}":latest
 
     # Login to ECR
-    aws ecr get-login-pa
+    FOR FRONTEND: aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
+
+    FOR BACKEND: aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
+
+9. Access your application by mapping ALB DNS ( Which you will get from Terraform Output ) to your DNS.
+
+## Cleanup
+
+To tear down the infrastructure and delete all resources created by Terraform, run:
+
+```bash
+terraform destroy
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
