@@ -1,0 +1,12 @@
+---
+# .terraform-docs.yml
+formatter: markdown table
+
+content: |-
+    {{ .Header }}
+
+    {{ .Resources }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}  
