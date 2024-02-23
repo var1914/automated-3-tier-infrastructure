@@ -61,13 +61,11 @@ variable "alb_public_access" {
 variable "acm_certificate_arn" {
   description = "The ARN for the ACM certificate"
   type        = string
-  default     = null
 }
 
 variable "project_name" {
   description = "The name of the project"
   type        = string
-  default     = "blogging"
 }
 
 variable "backend_readonly_root_filesystem" {
@@ -85,7 +83,6 @@ variable "create_env_bucket" {
 variable "terraform_remote_state_bucket" {
   description = "The name of the S3 bucket for the Terraform remote state"
   type        = string
-  default     = null
 }
 
 variable "terraform_remote_state_key" {

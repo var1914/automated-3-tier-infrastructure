@@ -1,3 +1,4 @@
+project_name                  = "blogging-platform"
 environment                   = "staging"
 backend_service_cpu           = 512
 backend_service_memory        = 1024

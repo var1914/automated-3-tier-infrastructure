@@ -1,5 +1,4 @@
 # automated-3-tier-infrastructure
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
@@ -17,7 +16,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_acm_certificate_arn"></a> [acm\_certificate\_arn](#input\_acm\_certificate\_arn) | The ARN for the ACM certificate | `string` | `null` | no |
+| <a name="input_acm_certificate_arn"></a> [acm\_certificate\_arn](#input\_acm\_certificate\_arn) | The ARN for the ACM certificate | `string` | n/a | yes |
 | <a name="input_alb_public_access"></a> [alb\_public\_access](#input\_alb\_public\_access) | Whether the ALB should be publicly accessible | `bool` | `true` | no |
 | <a name="input_backend_readonly_root_filesystem"></a> [backend\_readonly\_root\_filesystem](#input\_backend\_readonly\_root\_filesystem) | Whether the backend service should have a read-only root filesystem | `bool` | `true` | no |
 | <a name="input_backend_service_cpu"></a> [backend\_service\_cpu](#input\_backend\_service\_cpu) | The CPU units for the backend service | `number` | `256` | no |
@@ -37,9 +36,9 @@
 | <a name="input_frontend_service_environment"></a> [frontend\_service\_environment](#input\_frontend\_service\_environment) | Environment variables for the frontend service | `list(map(string))` | `null` | no |
 | <a name="input_frontend_service_memory"></a> [frontend\_service\_memory](#input\_frontend\_service\_memory) | The memory for the frontend service | `number` | `512` | no |
 | <a name="input_frontend_service_port"></a> [frontend\_service\_port](#input\_frontend\_service\_port) | The port for the frontend service | `number` | `80` | no |
-| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | The name of the project | `string` | `"blogging"` | no |
+| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | The name of the project | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The region for the infrastructure | `string` | `"us-west-2"` | no |
-| <a name="input_terraform_remote_state_bucket"></a> [terraform\_remote\_state\_bucket](#input\_terraform\_remote\_state\_bucket) | The name of the S3 bucket for the Terraform remote state | `string` | `null` | no |
+| <a name="input_terraform_remote_state_bucket"></a> [terraform\_remote\_state\_bucket](#input\_terraform\_remote\_state\_bucket) | The name of the S3 bucket for the Terraform remote state | `string` | n/a | yes |
 | <a name="input_terraform_remote_state_key"></a> [terraform\_remote\_state\_key](#input\_terraform\_remote\_state\_key) | The name of the key for the Terraform remote state | `string` | `"terraform.tfstate"` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | The CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
 
