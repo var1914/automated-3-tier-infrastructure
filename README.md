@@ -66,6 +66,7 @@ To tear down the infrastructure and delete all resources created by Terraform, r
 
 ```bash
 terraform destroy
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
