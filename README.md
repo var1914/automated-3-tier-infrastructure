@@ -17,13 +17,13 @@ Follow these steps to deploy the infrastructure using Terraform:
 1. Clone this repository to your local machine:
 
     ```bash
-    git clone https://github.com/your-username/terraform-scripts.git
+    git clone git@github.com:var1914/automated-3-tier-infrastructure.git
     ```
 
 2. Navigate to the repository directory:
 
     ```bash
-    cd terraform-scripts
+    cd automated-3-tier-infrastructure
     ```
 
 3. Initialize Terraform:
@@ -107,5 +107,5 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | n/a |  
+| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The DNS name of the ALB |  
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
