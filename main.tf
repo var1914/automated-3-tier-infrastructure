@@ -1,14 +1,13 @@
 module "three-tier-app-infra" {
-  source                        = "./three-tier-app-infra"
-  project_name                  = "blogging-platform"
-  environment                   = "staging"
-  backend_service_cpu           = 512
-  backend_service_memory        = 1024
-  backend_service_port          = 3000
-  region                        = "eu-central-1"
-  frontend_service_cpu          = 512
-  frontend_service_memory       = 1024
-  frontend_service_port         = 80
-  acm_certificate_arn           = "arn:aws:acm:eu-central-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
-  terraform_remote_state_bucket = "terraform-remote-state-bucket"
+  source                  = "./three-tier-app-infra"
+  project_name            = var.project_name
+  environment             = var.environment
+  backend_service_cpu     = var.backend_service_cpu
+  backend_service_memory  = var.backend_service_memory
+  backend_service_port    = var.backend_service_port
+  region                  = var.region
+  frontend_service_cpu    = var.frontend_service_cpu
+  frontend_service_memory = var.frontend_service_memory
+  frontend_service_port   = var.frontend_service_port
+  acm_certificate_arn     = var.acm_certificate_arn
 }

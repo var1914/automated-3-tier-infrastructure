@@ -193,13 +193,13 @@ module "frontend_ecs_service" {
     }
   }
 
-  load_balancer = {
-    service = {
-      target_group_arn = module.alb.target_groups["frontend"].arn
-      container_name   = "${local.prefix}-frontend"
-      container_port   = "${var.frontend_service_port}"
-    }
-  }
+  # load_balancer = {
+  #   service = {
+  #     target_group_arn = module.alb.target_groups["frontend"].arn
+  #     container_name   = "${local.prefix}-frontend"
+  #     container_port   = "${var.frontend_service_port}"
+  #   }
+  # }
 
   subnet_ids = module.vpc.private_subnets
   security_group_rules = {

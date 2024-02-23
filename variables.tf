@@ -80,17 +80,6 @@ variable "create_env_bucket" {
   default     = false
 }
 
-variable "terraform_remote_state_bucket" {
-  description = "The name of the S3 bucket for the Terraform remote state"
-  type        = string
-}
-
-variable "terraform_remote_state_key" {
-  description = "The name of the key for the Terraform remote state"
-  type        = string
-  default     = "terraform.tfstate"
-}
-
 variable "backend_service_environment" {
   description = "Environment variables for the backend service"
   type        = list(map(string))

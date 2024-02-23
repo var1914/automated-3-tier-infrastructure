@@ -101,11 +101,11 @@ No resources.
 | <a name="input_frontend_service_port"></a> [frontend\_service\_port](#input\_frontend\_service\_port) | The port for the frontend service | `number` | `80` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | The name of the project | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The region for the infrastructure | `string` | `"us-west-2"` | no |
-| <a name="input_terraform_remote_state_bucket"></a> [terraform\_remote\_state\_bucket](#input\_terraform\_remote\_state\_bucket) | The name of the S3 bucket for the Terraform remote state | `string` | n/a | yes |
-| <a name="input_terraform_remote_state_key"></a> [terraform\_remote\_state\_key](#input\_terraform\_remote\_state\_key) | The name of the key for the Terraform remote state | `string` | `"terraform.tfstate"` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | The CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
 
-No outputs.  
+| Name | Description |
+|------|-------------|
+| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | n/a |  
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

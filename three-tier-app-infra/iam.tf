@@ -11,7 +11,7 @@ resource "aws_iam_policy" "db_access_policy" {
           "rds:*"
         ],
         Resource = [
-          module.db.arn,
+          module.db.db_instance_arn,
         ],
       },
     ],

@@ -10,7 +10,7 @@ module "vpc" {
   cidr = var.vpc_cidr
   azs  = local.azs
   private_subnets = [
-    for az in "${ocal.azs}" :
+    for az in "${local.azs}" :
     cidrsubnet("${var.vpc_cidr}", 8, index("${local.azs}", az))
   ]
   public_subnets = [

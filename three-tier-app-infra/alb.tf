@@ -33,11 +33,10 @@ module "alb" {
   }
   target_groups = {
     frontend = {
-      name_prefix       = "${local.prefix}"
-      protocol          = "HTTP"
-      port              = 80
-      target_type       = "ip"
-      create_attachment = true
+      protocol    = "HTTP"
+      port        = 80
+      target_type = "ip"
+      target_id   = "http"
       health_check = {
         path                = "/"
         interval            = 30
@@ -58,19 +57,14 @@ module "alb" {
         status_code = "HTTP_301"
       }
     }
-    https_listeners = {
-      port               = 443
-      protocol           = "HTTPS"
-      certificate_arn    = "${var.acm_certificate_arn}"
-      target_group_index = 0
-      forward = {
-        stickiness = {
-          enabled = true
-          type    = "lb_cookie"
-        }
-        target_groups = ["frontend"]
-      }
-    }
+    # https_listeners = {
+    #   port               = 443
+    #   protocol           = "HTTPS"
+    #   certificate_arn    = "${var.acm_certificate_arn}"
+    #   forward = {
+    #     target_group_key = "frontend"
+    #   }
+    # }
   }
   tags = local.tags
 }
