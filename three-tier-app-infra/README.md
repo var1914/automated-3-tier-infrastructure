@@ -1,56 +1,16 @@
-# Terraform Scripts for 3-Tier Application Architecture
-
-This repository contains Terraform scripts to deploy a 3-tier application architecture on AWS. The architecture consists of ECS (Elastic Container Service) for frontend and backend containers, RDS (Relational Database Service) as the database, ECR (Elastic Container Registry) for Docker image repository, and ALB (Application Load Balancer) on top of the frontend.
-
-## Prerequisites
-
-Before you begin, make sure you have the following prerequisites installed:
-
-- Terraform
-- AWS CLI
-- Docker (if you're building custom Docker images)
-
-## Deployment Steps
-
-Follow these steps to deploy the infrastructure using Terraform:
-
-1. Clone this repository to your local machine:
-
-    ```bash
-    git clone https://github.com/your-username/terraform-scripts.git
-    ```
-
-2. Navigate to the repository directory:
-
-    ```bash
-    cd terraform-scripts
-    ```
-
-3. Initialize Terraform:
-
-    ```bash
-    terraform init
-    ```
-
-4. Review and modify the `variables.tf` file to set your desired configurations. You may need to update variables such as region, AWS profile, etc.
-
-5. Optionally, build and push your custom Docker images to ECR:
-
-    ```bash
-    # Build the Docker images
-    docker build -t your-image-name .
-
-    # Tag the Docker image for ECR
-    docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/your-image-name:latest
-
-    # Login to ECR
-    aws ecr get-login-pa
+# automated-3-tier-infrastructure
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_iam_policy.db_access_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy_attachment.db_access_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment) | resource |
+| [aws_security_group.db_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_service_discovery_http_namespace.ecs_service_namespace](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/service_discovery_http_namespace) | resource |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
