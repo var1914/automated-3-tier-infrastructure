@@ -3,13 +3,13 @@ module "db" {
 
   identifier = "${local.prefix}-${var.db_engine}-db"
 
-  engine            = var.db_engine
-  engine_version    = var.db_engine_version
-  instance_class    = var.db_instance_class
-  allocated_storage = var.db_storage_size
-  storage_encrypted = false
-
-  username = "master"
+  engine               = var.db_engine
+  major_engine_version = var.db_engine_version
+  instance_class       = var.db_instance_class
+  allocated_storage    = var.db_storage_size
+  storage_encrypted    = false
+  skip_final_snapshot  = var.skip_final_snapshot
+  username             = "master"
 
   manage_master_user_password = true
   port                        = var.db_port
@@ -27,7 +27,7 @@ module "db" {
   # DB parameter group
   family = var.db_parameter_group_family
 
-  deletion_protection = true
+  deletion_protection = false
 }
 
 resource "aws_security_group" "db_sg" {

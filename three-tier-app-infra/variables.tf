@@ -95,19 +95,19 @@ variable "frontend_service_environment" {
 variable "db_engine" {
   description = "The engine for the database"
   type        = string
-  default     = "postgres"
+  default     = "mysql"
 }
 
 variable "db_engine_version" {
   description = "The version for the database engine"
   type        = string
-  default     = "11.5"
+  default     = "8.0"
 }
 
 variable "db_instance_class" {
   description = "The instance class for the database"
   type        = string
-  default     = "db.t2.micro"
+  default     = "db.t3.micro"
 }
 
 variable "db_storage_size" {
@@ -131,5 +131,11 @@ variable "db_publicly_accessible" {
 variable "db_parameter_group_family" {
   description = "The family for the database parameter group"
   type        = string
-  default     = "postgres11"
+  default     = "mysql8.0"
+}
+
+variable "skip_final_snapshot" {
+  description = "Whether to skip the final snapshot"
+  type        = bool
+  default     = true
 }

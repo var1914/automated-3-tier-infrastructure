@@ -86,7 +86,7 @@ module "backend_ecs_service" {
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
   container_definitions = {
-    adhoc-backend = {
+    backend = {
       cpu                      = "${var.backend_service_cpu}"
       memory                   = "${var.backend_service_memory}"
       image                    = module.backend_ecr.repository_url
@@ -157,7 +157,7 @@ module "frontend_ecs_service" {
   deployment_maximum_percent         = 200
 
   container_definitions = {
-    adhoc-frontend = {
+    frontend = {
       cpu         = "${var.frontend_service_cpu}"
       memory      = "${var.frontend_service_memory}"
       image       = module.frontend_ecr.repository_url
@@ -193,13 +193,13 @@ module "frontend_ecs_service" {
     }
   }
 
-  # load_balancer = {
-  #   service = {
-  #     target_group_arn = module.alb.target_groups["frontend"].arn
-  #     container_name   = "${local.prefix}-frontend"
-  #     container_port   = "${var.frontend_service_port}"
-  #   }
-  # }
+  load_balancer = {
+    service = {
+      target_group_arn = aws_lb_target_group.this.arn
+      container_name   = "frontend"
+      container_port   = "${var.frontend_service_port}"
+    }
+  }
 
   subnet_ids = module.vpc.private_subnets
   security_group_rules = {

@@ -3,11 +3,12 @@ module "alb" {
 
   name = "${local.prefix}-alb"
 
-  load_balancer_type    = "application"
-  internal              = var.alb_public_access
-  vpc_id                = module.vpc.vpc_id
-  subnets               = module.vpc.public_subnets
-  create_security_group = true
+  load_balancer_type         = "application"
+  internal                   = var.alb_public_access
+  vpc_id                     = module.vpc.vpc_id
+  subnets                    = module.vpc.public_subnets
+  create_security_group      = true
+  enable_deletion_protection = false
   security_group_ingress_rules = {
     all_http = {
       description = "Allow HTTP ingress"
@@ -31,22 +32,22 @@ module "alb" {
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
-  target_groups = {
-    frontend = {
-      protocol    = "HTTP"
-      port        = 80
-      target_type = "ip"
-      target_id   = "http"
-      health_check = {
-        path                = "/"
-        interval            = 30
-        timeout             = 15
-        healthy_threshold   = 5
-        unhealthy_threshold = 5
-        matcher             = "200"
-      }
-    }
-  }
+  # target_groups = {
+  #   frontend = {
+  #     protocol    = "HTTP"
+  #     port        = 80
+  #     target_type = "ip"
+  #     target_id   = "http"
+  #     health_check = {
+  #       path                = "/"
+  #       interval            = 30
+  #       timeout             = 15
+  #       healthy_threshold   = 5
+  #       unhealthy_threshold = 5
+  #       matcher             = "200"
+  #     }
+  #   }
+  # }
   listeners = {
     http_tcp_listeners = {
       port     = 80
@@ -62,9 +63,18 @@ module "alb" {
     #   protocol           = "HTTPS"
     #   certificate_arn    = "${var.acm_certificate_arn}"
     #   forward = {
-    #     target_group_key = "frontend"
+    #     target_group_arn = aws_lb_target_group.this.arn
     #   }
     # }
   }
   tags = local.tags
+}
+
+resource "aws_lb_target_group" "this" {
+  name        = "${var.environment}frontend"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = module.vpc.vpc_id
+  tags        = local.tags
 }

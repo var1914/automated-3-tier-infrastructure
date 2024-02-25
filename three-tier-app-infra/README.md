@@ -8,6 +8,7 @@
 |------|------|
 | [aws_iam_policy.db_access_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy_attachment.db_access_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment) | resource |
+| [aws_lb_target_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
 | [aws_security_group.db_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_service_discovery_http_namespace.ecs_service_namespace](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/service_discovery_http_namespace) | resource |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
@@ -24,10 +25,10 @@
 | <a name="input_backend_service_memory"></a> [backend\_service\_memory](#input\_backend\_service\_memory) | The memory for the backend service | `number` | `512` | no |
 | <a name="input_backend_service_port"></a> [backend\_service\_port](#input\_backend\_service\_port) | The port for the backend service | `number` | `3000` | no |
 | <a name="input_create_env_bucket"></a> [create\_env\_bucket](#input\_create\_env\_bucket) | Whether to create an environment bucket | `bool` | `false` | no |
-| <a name="input_db_engine"></a> [db\_engine](#input\_db\_engine) | The engine for the database | `string` | `"postgres"` | no |
-| <a name="input_db_engine_version"></a> [db\_engine\_version](#input\_db\_engine\_version) | The version for the database engine | `string` | `"11.5"` | no |
-| <a name="input_db_instance_class"></a> [db\_instance\_class](#input\_db\_instance\_class) | The instance class for the database | `string` | `"db.t2.micro"` | no |
-| <a name="input_db_parameter_group_family"></a> [db\_parameter\_group\_family](#input\_db\_parameter\_group\_family) | The family for the database parameter group | `string` | `"postgres11"` | no |
+| <a name="input_db_engine"></a> [db\_engine](#input\_db\_engine) | The engine for the database | `string` | `"mysql"` | no |
+| <a name="input_db_engine_version"></a> [db\_engine\_version](#input\_db\_engine\_version) | The version for the database engine | `string` | `"8.0"` | no |
+| <a name="input_db_instance_class"></a> [db\_instance\_class](#input\_db\_instance\_class) | The instance class for the database | `string` | `"db.t3.micro"` | no |
+| <a name="input_db_parameter_group_family"></a> [db\_parameter\_group\_family](#input\_db\_parameter\_group\_family) | The family for the database parameter group | `string` | `"mysql8.0"` | no |
 | <a name="input_db_port"></a> [db\_port](#input\_db\_port) | The port for the database | `number` | `5432` | no |
 | <a name="input_db_publicly_accessible"></a> [db\_publicly\_accessible](#input\_db\_publicly\_accessible) | Whether the database should be publicly accessible | `bool` | `false` | no |
 | <a name="input_db_storage_size"></a> [db\_storage\_size](#input\_db\_storage\_size) | The storage size for the database | `number` | `20` | no |
@@ -38,6 +39,7 @@
 | <a name="input_frontend_service_port"></a> [frontend\_service\_port](#input\_frontend\_service\_port) | The port for the frontend service | `number` | `80` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | The name of the project | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The region for the infrastructure | `string` | `"us-west-2"` | no |
+| <a name="input_skip_final_snapshot"></a> [skip\_final\_snapshot](#input\_skip\_final\_snapshot) | Whether to skip the final snapshot | `bool` | `true` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | The CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs

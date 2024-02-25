@@ -133,3 +133,9 @@ variable "db_parameter_group_family" {
   type        = string
   default     = "postgres11"
 }
+
+variable "skip_final_snapshot" {
+  description = "Whether to skip the final snapshot"
+  type        = bool
+  default     = true
+}
