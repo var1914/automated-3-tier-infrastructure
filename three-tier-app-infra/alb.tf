@@ -32,22 +32,7 @@ module "alb" {
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
-  # target_groups = {
-  #   frontend = {
-  #     protocol    = "HTTP"
-  #     port        = 80
-  #     target_type = "ip"
-  #     target_id   = "http"
-  #     health_check = {
-  #       path                = "/"
-  #       interval            = 30
-  #       timeout             = 15
-  #       healthy_threshold   = 5
-  #       unhealthy_threshold = 5
-  #       matcher             = "200"
-  #     }
-  #   }
-  # }
+
   listeners = {
     http_tcp_listeners = {
       port     = 80
@@ -58,14 +43,14 @@ module "alb" {
         status_code = "HTTP_301"
       }
     }
-    # https_listeners = {
-    #   port               = 443
-    #   protocol           = "HTTPS"
-    #   certificate_arn    = "${var.acm_certificate_arn}"
-    #   forward = {
-    #     target_group_arn = aws_lb_target_group.this.arn
-    #   }
-    # }
+    https_listeners = {
+      port            = 443
+      protocol        = "HTTPS"
+      certificate_arn = "${var.acm_certificate_arn}"
+      forward = {
+        arn = aws_lb_target_group.this.arn
+      }
+    }
   }
   tags = local.tags
 }
