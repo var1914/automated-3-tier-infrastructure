@@ -36,17 +36,34 @@ Follow these steps to deploy the infrastructure using Terraform:
 
 4. Review and modify file like `stage.vars/prod.vars`, review  add more variables in `main.tf`, if you are adding at `stage.vars/prod.vars` files to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
 
-5. Apply the Terraform configuration to create the infrastructure:
+5. If you are planning to create multiple environment, its good to create terraform workspaces, which will make sure of isolation of your multiple duplicated environment
 
     ```bash
-    terraform apply
+    For e.g.:
+    terraform workspace new stage 
+    OR
+    terraform workspace new prod
     ```
 
-6. Confirm the deployment by reviewing the Terraform Apply and entering 'yes' when prompted.
+5. Plan the Terraform configuration to review the infrastructure:
 
-7. Once the deployment is complete, You need to push docker image.
+    ```bash
+    terraform workspace select stage/prod
+    terraform plan --var-file stage.tfvars/prod.tfvars
+    ```
 
-8. Optionally, build and push your custom Docker images to ECR:
+6. Apply the Terraform configuration to create the infrastructure:
+
+    ```bash
+    terraform workspace select stage/prod
+    terraform apply --var-file stage.tfvars/prod.tfvars
+    ```
+
+7. Confirm the deployment by reviewing the Terraform Apply and entering 'yes' when prompted.
+
+8. Once the deployment is complete, You need to push docker image.
+
+9. Build and push your custom Docker images to ECR:
 
     ```bash
     # Build the Docker images
@@ -75,15 +92,16 @@ Follow these steps to deploy the infrastructure using Terraform:
     docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
     
 
-9. Access your application by mapping ALB DNS ( Which you will get from Terraform Output ) to your DNS.
+10. Access your application by mapping ALB DNS ( Which you will get from Terraform Output ) to your DNS.
 
 ## Cleanup
 
 To tear down the infrastructure and delete all resources created by Terraform, run:
 
-```bash
-terraform destroy
-```
+    ```bash
+    terraform workspace select stage/prod
+    terraform destroy
+    ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
