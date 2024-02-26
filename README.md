@@ -32,7 +32,9 @@ Follow these steps to deploy the infrastructure using Terraform:
     terraform init
     ```
 
-4. Review and modify the `main.tf` file to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
+3. Go Through `variables.tf`, analyse what all variables you want to customise as per your needs
+
+4. Review and modify file like `stage.vars/prod.vars`, review  add more variables in `main.tf`, if you are adding at `stage.vars/prod.vars` files to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
 
 5. Apply the Terraform configuration to create the infrastructure:
 
@@ -40,7 +42,7 @@ Follow these steps to deploy the infrastructure using Terraform:
     terraform apply
     ```
 
-6. Confirm the deployment by reviewing the Terraform plan and entering 'yes' when prompted.
+6. Confirm the deployment by reviewing the Terraform Apply and entering 'yes' when prompted.
 
 7. Once the deployment is complete, You need to push docker image.
 
@@ -50,13 +52,28 @@ Follow these steps to deploy the infrastructure using Terraform:
     # Build the Docker images
     docker build -t your-image-name .
 
+    FOR FRONTEND: 
+    
     # Tag the Docker image for ECR
-    docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}":latest
+    docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend":latest
 
     # Login to ECR
-    FOR FRONTEND: aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
+    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
 
-    FOR BACKEND: aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
+    # Push to ECR
+    docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
+
+    FOR BACKEND: 
+
+    # Tag the Docker image for ECR
+    docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend":latest
+
+    # Login to ECR
+    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
+
+    # Push to ECR
+    docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
+    
 
 9. Access your application by mapping ALB DNS ( Which you will get from Terraform Output ) to your DNS.
 
