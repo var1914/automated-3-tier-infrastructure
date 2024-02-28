@@ -1,0 +1,60 @@
+name: Terraform Plan and Apply
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+jobs:
+  terraform_plan_and_apply:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Set up Terraform
+        id : terraform_setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.3
+
+      - name: Configure AWS credentials
+        id: aws_credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Terraform Init and Plan
+        id: terraform_init_plan
+        if: steps.aws_credentials.outcome == 'success'
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/develop" ]; then
+            terraform init
+            terraform workspace select -or-create=true stage 
+            terraform plan --var-file stage.tfvars
+          else
+            terraform init
+            terraform workspace select -or-create=true prod
+            terraform plan --var-file prod.tfvars
+          fi
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: terraform_apply
+        if: steps.terraform_init_plan.outcome == 'success'
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/develop" ]; then
+            terraform workspace select -or-create=true stage
+            terraform apply --var-file stage.tfvars -auto-approve
+          else
+            terraform workspace select -or-create=true prod
+            terraform apply --var-file prod.tfvars -auto-approve
+          fi

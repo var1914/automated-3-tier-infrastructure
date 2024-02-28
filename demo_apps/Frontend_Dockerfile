@@ -1,0 +1,19 @@
+# Frontend Dockerfile
+
+# Use an official Node runtime as a parent image
+FROM node:14-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Create a placeholder index.html file
+RUN echo "<h1>Hello from the frontend!</h1>" > index.html
+
+# Install a simple HTTP server
+RUN npm install -g http-server
+
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
+
+# Run the HTTP server to serve the placeholder HTML file
+CMD ["http-server", "-p", "3000"]

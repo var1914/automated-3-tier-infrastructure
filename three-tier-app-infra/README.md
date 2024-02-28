@@ -6,6 +6,8 @@
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_log_group.ecs_backend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
+| [aws_cloudwatch_log_group.ecs_frontend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_iam_policy.db_access_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy_attachment.db_access_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment) | resource |
 | [aws_lb_target_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
@@ -46,5 +48,12 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | n/a |  
+| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | n/a |
+| <a name="output_backend_ecr"></a> [backend\_ecr](#output\_backend\_ecr) | n/a |
+| <a name="output_ecs_backend_service_name"></a> [ecs\_backend\_service\_name](#output\_ecs\_backend\_service\_name) | n/a |
+| <a name="output_ecs_backend_task_definition_family"></a> [ecs\_backend\_task\_definition\_family](#output\_ecs\_backend\_task\_definition\_family) | n/a |
+| <a name="output_ecs_cluster_name"></a> [ecs\_cluster\_name](#output\_ecs\_cluster\_name) | n/a |
+| <a name="output_ecs_frontend_service_name"></a> [ecs\_frontend\_service\_name](#output\_ecs\_frontend\_service\_name) | n/a |
+| <a name="output_ecs_frontend_task_definition_family"></a> [ecs\_frontend\_task\_definition\_family](#output\_ecs\_frontend\_task\_definition\_family) | n/a |
+| <a name="output_frontend_ecr"></a> [frontend\_ecr](#output\_frontend\_ecr) | n/a |  
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

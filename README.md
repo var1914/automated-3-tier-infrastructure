@@ -6,6 +6,8 @@ This repository contains Terraform scripts to deploy a 3-tier application archit
 
 - If you already have frontend and backend application ready as an Docker Image, and planning to create 3 tier Infrastructure in AWS in one go, than you are on the right place
 
+- Imagine you're excited to launch your application, but the overwhelming responsibility of deploying a secure, cost-effective, and automated infrastructure is hindering you. Don't worry! With just a few CLI commands and our carefully designed Terraform setup, you can get your application up and running quickly.
+
 ## Prerequisites
 
 Before you begin, make sure you have the following prerequisites installed:
@@ -43,7 +45,7 @@ Follow these steps to deploy the infrastructure using Terraform:
 4. Review and modify file like `stage.tfvars/prod.tfvars`, review  add more variables in `main.tf`, if you are adding at `stage.tfvars/prod.tfvars` files to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
 
 Note: I have used temporary `acm_certificate_arn` inside `stage/prod tfvars`, please update it with actual one 
-The automated script will only work if you have an ACM certs, as ALB HTTPS Lsitener required TLS certificate. 
+The automated script will only work if you have an ACM certs, as ALB HTTPS Listener requires TLS certificate. 
 OR ELSE SCRIPT WILL FAIL
 
 5. If you are planning to create multiple environment, its good to create terraform workspaces, which will make sure of isolation of your multiple duplicated environment
@@ -80,27 +82,28 @@ Note: ALB will give 503 error, until you push frontend and backend docker images
 9. Build and push your custom Docker images to ECR:
 
     ```bash
-    # Build the Docker images
-    docker build -t your-image-name .
+
+    # Login to ECR
+    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com
 
     FOR FRONTEND: 
     
+    # Build the Docker images
+    docker build -t your-image-name .
+
     # Tag the Docker image for ECR
     docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend":latest
-
-    # Login to ECR
-    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
 
     # Push to ECR
     docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
 
     FOR BACKEND: 
 
+    # Build the Docker images
+    docker build -t your-image-name .
+
     # Tag the Docker image for ECR
     docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend":latest
-
-    # Login to ECR
-    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
 
     # Push to ECR
     docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
@@ -157,5 +160,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The DNS name of the ALB |  
+| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The DNS name of the ALB |
+| <a name="output_backend_ecr"></a> [backend\_ecr](#output\_backend\_ecr) | The ECR URL for the backend |
+| <a name="output_frontend_ecr"></a> [frontend\_ecr](#output\_frontend\_ecr) | The ECR URL for the frontend |  
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

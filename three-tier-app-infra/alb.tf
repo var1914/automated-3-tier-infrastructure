@@ -4,7 +4,7 @@ module "alb" {
   name = "${local.prefix}-alb"
 
   load_balancer_type         = "application"
-  internal                   = var.alb_public_access
+  internal                   = var.alb_public_access ? false : true
   vpc_id                     = module.vpc.vpc_id
   subnets                    = module.vpc.public_subnets
   create_security_group      = true

@@ -16,16 +16,16 @@ module "s3_frontend_asset_bucket" {
 module "ecs_cluster" {
   source = "terraform-aws-modules/ecs/aws"
 
-  cluster_name = "${local.prefix}-ecs-cluster"
-
-  tags = local.tags
+  cluster_name                = "${local.prefix}-ecs-cluster"
+  create_cloudwatch_log_group = true
+  tags                        = local.tags
 }
 
 module "backend_ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${local.prefix}-backend"
-
+  repository_name                 = "${local.prefix}-backend"
+  repository_image_tag_mutability = "MUTABLE"
   repository_lifecycle_policy = jsonencode({
     rules = [
       {
@@ -51,8 +51,8 @@ module "backend_ecr" {
 module "frontend_ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "${local.prefix}-frontend"
-
+  repository_name                 = "${local.prefix}-frontend"
+  repository_image_tag_mutability = "MUTABLE"
   repository_lifecycle_policy = jsonencode({
     rules = [
       {
@@ -77,11 +77,11 @@ module "frontend_ecr" {
 module "backend_ecs_service" {
   source = "terraform-aws-modules/ecs/aws//modules/service"
 
-  name        = "${local.prefix}-backend"
-  cluster_arn = module.ecs_cluster.cluster_arn
-
-  cpu    = var.backend_service_cpu
-  memory = var.backend_service_memory
+  name                   = "${local.prefix}-backend"
+  cluster_arn            = module.ecs_cluster.cluster_arn
+  enable_execute_command = true
+  cpu                    = var.backend_service_cpu
+  memory                 = var.backend_service_memory
 
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
@@ -103,7 +103,7 @@ module "backend_ecs_service" {
       log_configuration = {
         log_driver = "awslogs"
         options = {
-          awslogs-group         = "/aws/ecs/${local.prefix}-backend/"
+          awslogs-group         = "/aws/ecs/${local.prefix}-backend"
           awslogs-region        = "${var.region}"
           awslogs-stream-prefix = "ecs"
         }
@@ -155,7 +155,6 @@ module "frontend_ecs_service" {
 
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
-
   container_definitions = {
     frontend = {
       cpu         = "${var.frontend_service_cpu}"
@@ -206,8 +205,8 @@ module "frontend_ecs_service" {
     http_ingress = {
       description              = "Allow HTTP ingress"
       type                     = "ingress"
-      from_port                = 80
-      to_port                  = 80
+      from_port                = "${var.frontend_service_port}"
+      to_port                  = "${var.frontend_service_port}"
       protocol                 = "tcp"
       source_security_group_id = module.alb.security_group_id
     }
@@ -219,4 +218,14 @@ module "frontend_ecs_service" {
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
+}
+
+resource "aws_cloudwatch_log_group" "ecs_frontend" {
+  name              = "/aws/ecs/${local.prefix}-frontend"
+  retention_in_days = 30
+}
+
+resource "aws_cloudwatch_log_group" "ecs_backend" {
+  name              = "/aws/ecs/${local.prefix}-backend"
+  retention_in_days = 30
 }
