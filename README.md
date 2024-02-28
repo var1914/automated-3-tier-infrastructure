@@ -43,7 +43,7 @@ Follow these steps to deploy the infrastructure using Terraform:
 4. Review and modify file like `stage.tfvars/prod.tfvars`, review  add more variables in `main.tf`, if you are adding at `stage.tfvars/prod.tfvars` files to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
 
 Note: I have used temporary `acm_certificate_arn` inside `stage/prod tfvars`, please update it with actual one 
-The automated script will only work if you have an ACM certs, as ALB HTTPS Lsitener required TLS certificate. 
+The automated script will only work if you have an ACM certs, as ALB HTTPS Listener requires TLS certificate. 
 OR ELSE SCRIPT WILL FAIL
 
 5. If you are planning to create multiple environment, its good to create terraform workspaces, which will make sure of isolation of your multiple duplicated environment
