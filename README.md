@@ -2,6 +2,10 @@
 
 This repository contains Terraform scripts to deploy a 3-tier application architecture on AWS. The architecture consists of ECS (Elastic Container Service) for frontend and backend containers, RDS (Relational Database Service) as the database, ECR (Elastic Container Registry) for Docker image repository, and ALB (Application Load Balancer) on top of the frontend.
 
+# Target Audience
+
+- If you already have frontend and backend application ready as an Docker Image, and planning to create 3 tier Infrastructure in AWS in one go, than you are on the right place
+
 ## Prerequisites
 
 Before you begin, make sure you have the following prerequisites installed:
@@ -9,6 +13,8 @@ Before you begin, make sure you have the following prerequisites installed:
 - Terraform
 - AWS CLI
 - Docker (if you're building custom Docker images)
+
+- Basic Working Knowledge of Terraform and AWS CLI required
 
 ## Deployment Steps
 
@@ -34,9 +40,11 @@ Follow these steps to deploy the infrastructure using Terraform:
 
 3. Go Through `variables.tf`, analyse what all variables you want to customise as per your needs
 
-4. Review and modify file like `stage.vars/prod.vars`, review  add more variables in `main.tf`, if you are adding at `stage.vars/prod.vars` files to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
+4. Review and modify file like `stage.tfvars/prod.tfvars`, review  add more variables in `main.tf`, if you are adding at `stage.tfvars/prod.tfvars` files to set your desired configurations. You may need to update variables such as region, AWS profile, etc on local machine.
 
 Note: I have used temporary `acm_certificate_arn` inside `stage/prod tfvars`, please update it with actual one 
+The automated script will only work if you have an ACM certs, as ALB HTTPS Lsitener required TLS certificate. 
+OR ELSE SCRIPT WILL FAIL
 
 5. If you are planning to create multiple environment, its good to create terraform workspaces, which will make sure of isolation of your multiple duplicated environment
 
@@ -46,6 +54,7 @@ Note: I have used temporary `acm_certificate_arn` inside `stage/prod tfvars`, pl
     OR
     terraform workspace new prod
     ```
+Note: Terraform workspaces are a feature that allows you to manage multiple states of your infrastructure within a single Terraform directory, enabling you to switch between different sets of resources, variables, and outputs without interfering with each other.
 
 5. Plan the Terraform configuration to review the infrastructure:
 
@@ -53,6 +62,7 @@ Note: I have used temporary `acm_certificate_arn` inside `stage/prod tfvars`, pl
     terraform workspace select stage/prod
     terraform plan --var-file stage.tfvars/prod.tfvars
     ```
+Note: Basically TFVARS define variables and their values for Terraform configurations, enabling dynamic parameterization of infrastructure resources
 
 6. Apply the Terraform configuration to create the infrastructure:
 
@@ -64,6 +74,8 @@ Note: I have used temporary `acm_certificate_arn` inside `stage/prod tfvars`, pl
 7. Confirm the deployment by reviewing the Terraform Apply and entering 'yes' when prompted.
 
 8. Once the deployment is complete, You need to push docker image.
+
+Note: ALB will give 503 error, until you push frontend and backend docker images to ECR
 
 9. Build and push your custom Docker images to ECR:
 
