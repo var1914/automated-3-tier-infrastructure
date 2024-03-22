@@ -85,6 +85,7 @@ module "backend_ecs_service" {
 
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
+  create_cloudwatch_log_group        = true
   container_definitions = {
     backend = {
       cpu                      = "${var.backend_service_cpu}"
@@ -155,7 +156,7 @@ module "frontend_ecs_service" {
 
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
-
+  create_cloudwatch_log_group        = true
   container_definitions = {
     frontend = {
       cpu         = "${var.frontend_service_cpu}"

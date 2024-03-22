@@ -6,6 +6,8 @@ This repository contains Terraform scripts to deploy a 3-tier application archit
 
 - If you already have frontend and backend application ready as an Docker Image, and planning to create 3 tier Infrastructure in AWS in one go, than you are on the right place
 
+- Imagine you're excited to launch your application, but the overwhelming responsibility of deploying a secure, cost-effective, and automated infrastructure is hindering you. Don't worry! With just a few CLI commands and our carefully designed Terraform setup, you can get your application up and running quickly.
+
 ## Prerequisites
 
 Before you begin, make sure you have the following prerequisites installed:
@@ -80,27 +82,28 @@ Note: ALB will give 503 error, until you push frontend and backend docker images
 9. Build and push your custom Docker images to ECR:
 
     ```bash
-    # Build the Docker images
-    docker build -t your-image-name .
+
+    # Login to ECR
+    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com
 
     FOR FRONTEND: 
     
+    # Build the Docker images
+    docker build -t your-image-name .
+
     # Tag the Docker image for ECR
     docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend":latest
-
-    # Login to ECR
-    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
 
     # Push to ECR
     docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-frontend"
 
     FOR BACKEND: 
 
+    # Build the Docker images
+    docker build -t your-image-name .
+
     # Tag the Docker image for ECR
     docker tag your-image-name:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend":latest
-
-    # Login to ECR
-    aws ecr get-login-password --region <REGION> | docker login --username AWS --password- stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
 
     # Push to ECR
     docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/"${var.project_name}-${var.environment}-backend"
@@ -122,7 +125,8 @@ To tear down the infrastructure and delete all resources created by Terraform, r
 
 ## Resources
 
-No resources.
+- Basically it will create Frontend and Backend AWS ECS Service having FARGATE containers, with ALB mapped to Frontend, 
+- By default for DATABASES it will create POSTGRES 11.5 t3.micro instance.
 
 ## Inputs
 
