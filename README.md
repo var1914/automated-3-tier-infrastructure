@@ -2,6 +2,8 @@
 
 This repository contains Terraform scripts to deploy a 3-tier application architecture on AWS. The architecture consists of ECS (Elastic Container Service) for frontend and backend containers, RDS (Relational Database Service) as the database, ECR (Elastic Container Registry) for Docker image repository, and ALB (Application Load Balancer) on top of the frontend.
 
+For Practical Scenarios, refer my blog post: https://anyonecandeploy.com/
+
 # Target Audience
 
 - If you already have frontend and backend application ready as an Docker Image, and planning to create 3 tier Infrastructure in AWS in one go, than you are on the right place
