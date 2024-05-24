@@ -7,4 +7,4 @@ region                  = "eu-central-1"
 frontend_service_cpu    = 512
 frontend_service_memory = 1024
 frontend_service_port   = 3000
-acm_certificate_arn     = "arn:aws:acm:eu-central-1:533267292094:certificate/25dc28d6-b024-46d2-9634-0099589625db"
+acm_certificate_arn     = "arn:aws:acm:eu-central-1:123456789:certificate/123456789-123456789-123456789-123456789-123456789"
